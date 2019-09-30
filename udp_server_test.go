@@ -5,9 +5,10 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"testing"
 )
 
-func main() {
+func TestUDPServer(*testing.T) {
 	fmt.Println("-----begin server------")
 	u, err := udp.NewUDPServer(udp.UDP_SERVER_ADDR)
 	if err != nil {
