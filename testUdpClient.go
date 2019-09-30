@@ -13,6 +13,7 @@ func main() {
 	// u, err := NewUDPClient(host)
 	// fmt.Println("udp error:", err)
 	// err = u.Send(m)
+	counter := 0
 	for {
 		go func() {
 			err := udp.SendTo(host, m)
@@ -22,7 +23,13 @@ func main() {
 			err := udp.SendTo(host, m)
 			fmt.Println(time.Now(), len(m), "udp2 send error:", err)
 		}()
-		time.Sleep(1e7)
+		go func() {
+			err := udp.SendTo(host, m)
+			fmt.Println(time.Now(), len(m), "udp3 send error:", err)
+		}()
+		time.Sleep(1e3)
+		counter += 3
+		fmt.Println("count:", counter)
 	}
 	fmt.Println("-------end------")
 }
