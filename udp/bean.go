@@ -49,6 +49,6 @@ func BytesToInt(b []byte) int {
 type Message struct {
 	Data interface{}
 	Type string
-	ID   int
+	ID   string
 	Time time.Time
 }
