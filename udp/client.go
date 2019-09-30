@@ -1,6 +1,7 @@
 package udp
 
 import (
+	"bytes"
 	"net"
 )
 
@@ -18,6 +19,7 @@ func (c *UDPClient) connect() (err error) {
 }
 
 func (c *UDPClient) Send(data []byte) (err error) {
+	data = c.BuildData(data)
 	to, err := net.ResolveUDPAddr("udp", c.addr)
 	if err != nil {
 		return
@@ -25,6 +27,13 @@ func (c *UDPClient) Send(data []byte) (err error) {
 
 	_, err = c.conn.WriteToUDP(data, to)
 	return
+}
+
+func (c *UDPClient) BuildData(data []byte) []byte {
+	first := header.GetHeader(len(data))
+	buf := bytes.NewBuffer(first)
+	buf.Write(data)
+	return buf.Bytes()
 }
 
 func NewUDPClient(addr string) (*UDPClient, error) {
