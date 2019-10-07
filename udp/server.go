@@ -63,7 +63,7 @@ func (s *UDPServer) Receive() {
 			continue
 		}
 		l := header.Length()
-		if n > l {
+		if n <= s.length && l <= s.length && n > l {
 			bodySize := header.Size(s.buffer[:l])
 			if bodySize >= (n - l) { // finish this  receive
 				s.write(clientAddr.String(), s.buffer[l:l+bodySize])
