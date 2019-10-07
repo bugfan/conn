@@ -8,14 +8,19 @@ import (
 
 const (
 	UDP_SERVER_ADDR   = ":6666"
-	UDP_BUFFER_LENGTH = 1024
+	UDP_BUFFER_LENGTH = 4096
 	UDP_INTERVAL      = 3
 )
 
-func NewUDPServer(addr string) (*UDPServer, error) {
+// default buffer size is 4kb,if you use more than it ,you need  sign when you NewUDPServer
+func NewUDPServer(addr string, args ...int) (*UDPServer, error) {
+	bufferSize := UDP_BUFFER_LENGTH
+	if len(args) > 0 && args[0] > bufferSize {
+		bufferSize = args[0]
+	}
 	u := &UDPServer{
 		addr:     addr,
-		length:   UDP_BUFFER_LENGTH,
+		length:   bufferSize,
 		receiver: make([]Spit, 0, 0),
 	}
 	u.buffer = make([]byte, u.length)
