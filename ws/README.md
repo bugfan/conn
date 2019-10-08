@@ -7,7 +7,7 @@
 ## Websocket使用步骤
 1. 生成Upgrade
 
-![avatar](./img/gen_upgrader.png)
+![avatar](./img/gen_ws.png)
 
 2. 使用Upgrader生成链接 并设法保存(案例使用map保存,便于查找)
 
