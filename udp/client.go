@@ -22,11 +22,11 @@ func (c *UDPClient) Send(data []byte) (err error) {
 	data = c.BuildData(data)
 	to, err := net.ResolveUDPAddr("udp", c.addr)
 	if err != nil {
-		return
+		return err
 	}
 
 	_, err = c.conn.WriteToUDP(data, to)
-	return
+	return err
 }
 
 func (c *UDPClient) BuildData(data []byte) []byte {
