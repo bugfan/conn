@@ -3,6 +3,7 @@ package main
 import (
 	"conn/udp"
 	"fmt"
+	"os"
 	"testing"
 	"time"
 )
@@ -15,20 +16,32 @@ func TestUDPClient(*testing.T) {
 	// fmt.Println("udp error:", err)
 	// err = u.Send(m)
 	counter := 0
+	go func() {
+		time.Sleep(2e9)
+		for {
+			udp.Reset()
+			time.Sleep(1e3)
+		}
+	}()
 	for {
-		go func() {
-			err := udp.SendTo(host, m)
-			fmt.Println(time.Now(), len(m), "udp1 send error:", err)
-		}()
-		go func() {
-			err := udp.SendTo(host, m)
-			fmt.Println(time.Now(), len(m), "udp2 send error:", err)
-		}()
-		go func() {
-			err := udp.SendTo(host, m)
-			fmt.Println(time.Now(), len(m), "udp3 send error:", err)
-		}()
-		time.Sleep(1e3)
+		// go func() {
+		// 	err := udp.SendTo(host, m)
+		// 	fmt.Println(time.Now(), len(m), "udp1 send error:", err)
+		// }()
+		// go func() {
+		// 	err := udp.SendTo(host, m)
+		// 	fmt.Println(time.Now(), len(m), "udp2 send error:", err)
+		// }()
+		// go func() {
+		// 	err := udp.SendTo(host, m)
+		// 	fmt.Println(time.Now(), len(m), "udp3 send error:", err)
+		// }()
+		err := udp.SendTo(host, m)
+		if err != nil {
+			os.Exit(89)
+		}
+		fmt.Println(time.Now(), len(m), "test udp reset send error:", err)
+		time.Sleep(1e7)
 		counter += 3
 		fmt.Println("count:", counter)
 	}

@@ -43,9 +43,14 @@ func NewUDPClient(addr string) (*UDPClient, error) {
 	return u, u.connect()
 }
 
+///  following 3 part is sample usages
 var (
 	udpClient *UDPClient
 )
+
+func Reset() {
+	udpClient = nil
+}
 
 func SendTo(addr string, data []byte) error {
 	if udpClient == nil {
